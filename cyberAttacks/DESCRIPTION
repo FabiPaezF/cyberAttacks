@@ -1,0 +1,15 @@
+Package: cyberAttacks
+Type: Package
+Title: Analysis of the tweets about Cybersecurity atacks
+Version: 0.1.0
+Authors: c(
+	person("Fabi","Páez", email ="fabipaezforteza@gmail.com", role = c("aut","cre")),
+	person("Pedro","Galindo", email = "pedrogralindo@gmail.com", role = c("aut","cre")) 
+Description: More about what it does (maybe more than one line)
+URL:
+Depends: R (>= 3.3.1)
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+RoxygenNote: 6.0.1
