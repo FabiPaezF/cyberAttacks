@@ -3,7 +3,7 @@ Type: Package
 Title: Analysis of the tweets about Cybersecurity atacks
 Version: 0.1.0
 Authors: c(
-	person("Fabi","Páez", email ="fabipaezforteza@gmail.com", role = c("aut","cre")),
+	person("Fabi","Paez", email ="fabipaezforteza@gmail.com", role = c("aut","cre")),
 	person("Pedro","Galindo", email = "pedrogralindo@gmail.com", role = c("aut","cre")) 
 Description: More about what it does (maybe more than one line)
 URL:
