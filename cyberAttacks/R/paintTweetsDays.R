@@ -4,6 +4,9 @@
 #'@param file A data frame with the attack information.
 #'@export
 paintTweetsDays <- function(file){
+  require("magrittr")
+  require("dplyr")
+  require("ggplot2")
 
   tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
   tweetFrame$created <- as.Date(as.POSIXct(trunc(tweetFrame$created, "days"), 'GMT')) #modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos

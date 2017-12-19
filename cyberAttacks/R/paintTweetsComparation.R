@@ -6,6 +6,11 @@
 #'@param file3 A data frame with the attack 3 information.
 #'@export
 paintTweetsComparation <- function(file, file2, file3){
+  require(RCurl)
+  require(dismo)
+  require(httr)
+  require(XML)
+
   ntweets <- nrow(readRDS(file = file))
   ntweets2 <- nrow(readRDS(file = file2))
   ntweets3 <- nrow(readRDS(file = file3))
