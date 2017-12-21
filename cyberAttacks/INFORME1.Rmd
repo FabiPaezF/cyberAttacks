@@ -1,0 +1,826 @@
+---
+title: "Informe Practica - GRUPO C"
+author: "Fabi Paez - Moris Davitashvili - Pedro Galindo"
+date: "Diciembre de 2017"
+output: 
+  html_document:
+    toc: yes
+  html_notebook:
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: no
+---
+
+
+<!-- aqui declaro las funciones  -->
+
+
+<!-- funcion paintContries -->
+
+```{r r_sample9 , echo=FALSE}
+#'@param file A data frame with the attack information.
+#'@export
+#source(R\playstation.R)
+paintContries <- function(file){
+  require("twitteR")
+  require("RCurl")
+  require("dismo")
+  require("maps")
+  require("ggplot2")
+  require("XML")
+  require("plyr")
+  require("stringr")
+
+  #consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
+  #consumer_secret <- '4My1RZHZgbYvaA5XBIAcJ11dqpgQtDOEecHR3LoZFcouCr1nL7'
+  #access_token <- '938134932383260672-vkIaphVYLXb2tnnpKFJU3calS4pE4hu'
+  #access_secret <- 'ZNscFMCMQX9ercbLgN16ROrsFULA0GX04k0BMgS7VvnAQ'
+  consumer_key <- 'xTtWssMDK0lbL3snyh07qc6Tq'
+  consumer_secret <- 'uhFU4p4XAijNMaKXml9dqatYN09AhWKU2XgNFgDkYIPEMMjafe'
+  access_token <- '942082776689528832-p8iBl60ho1aYTNmwOFxgOIKF1TrSeLo'
+  access_secret <- 'kadqQQ0YqP5iGzgp9MkfP4pDRM6rDXrL9N7khPlPqcgv5'
+
+  setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret) #accesso a Twitter
+  1 ##para confirmar la autenticacion
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+
+  userInfo <- lookupUsers(tweetFrame$screenName)  # buscamos informacion sobre los usuarios
+  userFrame <- twListToDF(userInfo)  # Convertimos a DataFrame
+
+  locatedUsers <- !is.na(userFrame$location)  # Guardamos la informacion relativa a la localitzacion de los usuarios
+  locations <- geocode(userFrame$location[locatedUsers])  # API para conseguir la localizacion aproximada de los usuarios a partir de latitud i longitud.
+  with(locations, plot(longitude, latitude))
+
+  # cogemos el tweet
+  localitzacio = locations$interpretedPlace
+  deleteNA = is.na(localitzacio) #buscamos NA
+  localitzacioNoNA = localitzacio[!deleteNA] #eliminamos NA
+  dtm <- as.data.frame(localitzacioNoNA) #pasamos a dataframe
+  dtmCountrys <- word(localitzacioNoNA,-1) #cogemos la ultima palabra que corresponde al pais
+  dtmCountrys[dtmCountrys=="Kingdom"]<-"UK" #devuelve tanto United Kingdom como UK por lo tanto unificamos a UK
+  dtmCountrys
+
+  dtmNumCountrys <- data.frame(table(unlist(strsplit(tolower(dtmCountrys), " "))))
+  return(pie(dtmNumCountrys$Freq, dtmNumCountrys$Var1, main="Tweets/Country"))
+}
+
+```
+
+
+<!-- funcion paintTweetsComparation -->
+
+```{r r_sample10 , echo=FALSE}
+#' Tweets Comparation
+#'
+#` Paint the the attack tweets comparation
+#'@param file A data frame with the attack information.
+#'@param file2 A data frame with the attack 2 information.
+#'@param file3 A data frame with the attack 3 information.
+#'@export
+paintTweetsComparation <- function(file, file2, file3){
+  require(RCurl)
+  require(dismo)
+  require(httr)
+  require(XML)
+
+  ntweets <- nrow(readRDS(file = file))
+  ntweets2 <- nrow(readRDS(file = file2))
+  ntweets3 <- nrow(readRDS(file = file3))
+
+  graphic <- matrix(c(ntweets,ntweets2,ntweets3),ncol=3,byrow=TRUE)
+  colnames(graphic) <- c("Wannacry","Playstation DDoS","nAtac3")
+  graphic <- as.table(graphic)
+  #graphic
+
+  return(barplot(graphic, main = "Comparación nº tweets ataques"))
+}
+```
+
+
+
+<!-- funcion paintTweetsDays -->
+
+```{r r_sample11 , echo=FALSE}
+
+#' Tweets Days
+#'
+#` Paint the tweet number of eahc day on a graphic.
+#'@param file A data frame with the attack information.
+#'@export
+paintTweetsDays <- function(file){
+  require("magrittr")
+  require("dplyr")
+  require("ggplot2")
+
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+  tweetFrame$created <- as.Date(as.POSIXct(trunc(tweetFrame$created, "days"), 'GMT')) #modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos
+
+  tweetFrame %>%
+  count(created, sort = TRUE) %>% #cogemos la columna created
+  filter(n > 100) %>%
+  mutate(created = reorder(created, n)) %>%
+  ggplot(aes(created, n)) + #dibujamos el grafico
+  geom_col() +
+  xlab(NULL) +
+  return(coord_flip()) #ejes coordenadas
+}
+
+
+```
+
+
+<!-- funcion paintWorldMap -->
+
+```{r r_sample12 , echo=FALSE}
+
+#' Geocode World Map
+#'
+#' Paint the tweets geogrhapic codes information on a global map.
+#'@param file A data frame with the attack information.
+#'@export
+paintWorldMap <- function(file){
+  require("twitteR")
+  require("RCurl")
+  require("dismo")
+  require("maps")
+  require("ggplot2")
+  require("XML")
+  require("plyr")
+  require("stringr")
+
+  consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
+  consumer_secret <- '4My1RZHZgbYvaA5XBIAcJ11dqpgQtDOEecHR3LoZFcouCr1nL7'
+  access_token <- '938134932383260672-vkIaphVYLXb2tnnpKFJU3calS4pE4hu'
+  access_secret <- 'ZNscFMCMQX9ercbLgN16ROrsFULA0GX04k0BMgS7VvnAQ'
+
+  setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret) #Accesso a Twitter
+  1 #Para confirmar la autenticacion
+
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+
+  userInfo <- lookupUsers(tweetFrame$screenName)  # Buscamos informacion sobre los usuarios
+  userFrame <- twListToDF(userInfo)  # Convertimos a DataFrame
+
+  locatedUsers <- !is.na(userFrame$location)  # Guardamos la informacion relativa a la localitzacion de los usuarios
+
+  locations <- geocode(userFrame$location[locatedUsers])  # API para conseguir la localizacion aproximada de los usuarios a partir de latitud i longitud.
+  with(locations, plot(longitude, latitude))
+
+  worldMap <- map_data("world")  # Mapamundi
+
+  zp1 <- ggplot(worldMap) # Pintamos el mapa
+  #tratamos el mapa
+  zp1 <- zp1 + geom_path(aes(x = long, y = lat, group = group), colour = gray(2/3), lwd = 1/3)
+  # Afegim un punt per usuari
+  zp1 <- zp1 + geom_point(data = locations, aes(x = longitude, y = latitude), colour = "RED", alpha = 1/2, size = 1/3)
+  zp1 <- zp1 + coord_equal() # permite conservar la relacion altura ancho (proporciones)
+  zp1 <- zp1 + theme_minimal()  # quitar información no útil del fondo
+  return(zp1)
+}
+
+```
+
+
+<!-- funcion searchTweets -->
+
+```{r r_sample13 , echo=FALSE}
+
+#' Search Tweets
+#'
+#` Search the attack tweets oon the Tweeter API.
+#'@param name The attack name
+#'@export
+searchTweets <- function(name){
+  require(twitteR)
+  require(RCurl)
+
+  consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
+  consumer_secret <- '4My1RZHZgbYvaA5XBIAcJ11dqpgQtDOEecHR3LoZFcouCr1nL7'
+  access_token <- '938134932383260672-vkIaphVYLXb2tnnpKFJU3calS4pE4hu'
+  access_secret <- 'ZNscFMCMQX9ercbLgN16ROrsFULA0GX04k0BMgS7VvnAQ'
+
+  setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
+  1
+
+  ltw <- list()
+  for (x in 1:100){
+    searchResults <- searchTwitter(name, since='2017-05-07', sinceID=x*5000, n=5000)
+    ltw[[x]] <- twListToDF(searchResults)
+  }
+  df.tw <- plyr::ldply(ltw)
+  #nomestw<-df.tw %>% filter(isRetweet == FALSE)
+  saveRDS(df.tw, file = name + ".rds")
+}
+
+```
+
+
+<!-- funcion wordCloudTweets -->
+
+```{r r_sample14 , echo=FALSE}
+
+#' word Cloud Tweets
+#'
+#` Paint a world cloud graphci with the tweets.
+#'@param file A data frame with the attack information.
+#'@export
+wordCloudTweets <- function(file){
+  require("twitteR")
+  require("RCurl")
+  require("dismo")
+  require("maps")
+  require("ggplot2")
+  require("XML")
+  require("plyr")
+  require("stringr")
+
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+
+  # cogemos el tweet
+  tweet_texto = tweetFrame$text
+  ## opcional.... pero importante ... limpiamos el tweet
+  # eliminamos las partes que no nos interesan
+  tweet_texto = gsub('(RT|via)((?:\\b\\W*@\\w+)+)', '', tweet_texto)
+  # eliminamos las personas @..
+  tweet_texto = gsub('@\\w+', '', tweet_texto)
+  # eliminamos signos de puntuacion
+  tweet_texto = gsub('[[:punct:]]', '', tweet_texto)
+  # eliminamos numeros..
+  tweet_texto = gsub('[[:digit:]]', '', tweet_texto)
+  # eliminamos links html
+  tweet_texto = gsub('http\\w+', '', tweet_texto)
+  # eliminamos espacios innecesarios
+  tweet_texto = gsub('[ \t]{2,}', '', tweet_texto)
+  # eliminamos caracteres raros..
+  tweet_texto = gsub('[^[:graph:]]', ' ', tweet_texto)
+
+  splitData <- unlist(strsplit(tweet_texto, "\\ ")) #spliteamos la frase en palabras sueltas
+  #adicionalmente eliminamos conectores comunes....
+  stopwords = c("are" ,
+                "able" ,
+                "about" ,
+                "above" ,
+                "the" ,
+                "a" ,
+                "",
+                " ",
+                "and",
+                "has",
+                "this" ,
+                "our" ,
+                "you've" ,
+                "for")
+  splitData <- removeWords(splitData,stopwords)
+  #dataFrameWords <- as.data.frame(splitData)
+  #m <- as.matrix(dataFrameWords)
+  #numWords <- count(dataFrameWords)
+
+  z <- Corpus(VectorSource(splitData)) #objeto para pintar...
+
+  return(wordcloud(z, max.words = 100, random.order = FALSE))
+}
+
+```
+
+
+
+<!-- fin declaracion funciones -->
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.align = 'center')
+```
+
+
+```{r bootstrap, message=FALSE, warning=FALSE, include=FALSE}
+if (!suppressMessages(suppressWarnings(require("plyr", quietly = T)))) {
+  suppressMessages(suppressWarnings(install.packages("plyr", repos = "http://cran.rstudio.com/", quiet = T, dependencies = T)))
+}
+if (!suppressMessages(suppressWarnings(require("dplyr", quietly = T)))) {  
+  suppressMessages(suppressWarnings(install.packages("dplyr", repos = "http://cran.rstudio.com/", quiet = T, dependencies = T)))
+}
+if (!suppressMessages(suppressWarnings(require("ggplot2", quietly = T)))) {
+suppressMessages(suppressWarnings(install.packages("ggplot2", repos = "http://cran.rstudio.com/", quiet = T, dependencies = T)))
+}
+```
+
+``` {r themes, echo=FALSE, eval=FALSE}
+themes <- "default", "cerulean", "journal", "flatly", "readable", "spacelab", "united", "cosmo", "lumen", "paper", "sandstone", "simplex", "yeti"
+```
+
+
+## 1. Definir pregunta
+
+El objetivo del presente trabajo es analizar cuál es la relación entre algunos de los ciberataques más importantes que se han producido en los últimos años y su repercusión en las redes sociales. En este trabajo nos centraremos en Twitter.
+
+
+### Twitter
+
+Twitter es un servicio de microblogging, con sede en San Francisco, California. 
+
+La red ha ganado popularidad mundial y se estima que tiene más de 500 millones de usuarios, generando 65 millones de tweets al día y maneja más de 800 000 peticiones de búsqueda diarias. Ha sido denominado como el "SMS de Internet".
+
+La red permite enviar mensajes de texto plano de corta longitud, con un máximo de 280 caracteres (originalmente 140), llamados tweets, que se muestran en la página principal del usuario. Los usuarios pueden suscribirse a los tweets de otros usuarios  – a esto se le llama "seguir" y a los usuarios abonados se les llama "seguidores", "followers" y a veces tweeps ('Twitter' + 'peeps', seguidores novatos que aún no han hecho muchos tweets). Por defecto, los mensajes son públicos, pudiendo difundirse privadamente mostrándolos únicamente a unos seguidores determinados.
+
+En la actualidad, Twitter factura más de 2.500 millones de dólares anuales y tiene un valor en bolsa superior a los 10.000 millones de dólares.
+
+
+### Conocimiento de los riesgos por parte de los usuarios
+
+La gente suele ser consciente de los riesgos existentes en su día a día. Por ejemplo, todo el mundo tiene un mínimo conocimiento de seguridad viaria o recibe una información básica sobre riesgos laborales en el desarrollo de su actividad profesional.
+
+Sin embargo es sorprendente que actualmente no se haga la misma incidencia sobre los potenciales riesgos de los usuarios cuando utilizan cualquier dispositivo tecnológico. Existe una gran ignorancia sobre los riesgos que un mal uso pueden suponer por ejemplo para la actividad de una empresa. Todos conocemos casos de empresas que han tenido que suspender temporalmente su actividad por un ciberataque o casos en que información extremadamente sensible ha sido sustraída.
+
+El presente trabajo pretende asimismo ver si la concienciación de los usuarios sobre los riesgos de los ciberataques ha evolucionado. Este análisis lo realizaremos estudiando diversos ataques ocurridos en los últimos años. Dado que el presente trabajo se limita a unos casos concretos, solamente podremos determinar si existe una tendencia.
+
+
+### Datos accesibles y obtenidos
+
+Hemos accedido a la página de Twitter y hemos obtenido los API para así poder acceder a la información que necesitábamos para realizar el presente trabajo.
+
+El programa que hemos desarrollado en el marco de este trabajo tiene como objetivo detectar el número de tweets que se han producido en relación con determinados ciberataques. 
+
+Hemos analizado datos correspondientes a los años 2015, 2016 y 2017.
+
+
+### Ciberataques referenciados
+
+Los ciberataques que hemos tomado como referencia para realizar el trabajo son los siguientes : 
+
+WannaCry , DDoS Playstation , Judy , Petya , Keyrayder .
+
+
+# 2. Creación de código y análisis de los datos
+
+## 2.1 Aplicando el código que hemos desarrollado:
+
++	API Twitter - Accedemos a Twitter con la función setup_twitter_oauth
+
+```{r r_sample1, echo=TRUE, eval=FALSE}
+consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
+consumer_secret <- '4My1RZHZgbYvaA5XBIAcJ11dqpgQtDOEecHR3LoZFcouCr1nL7'
+access_token <- '938134932383260672-vkIaphVYLXb2tnnpKFJU3calS4pE4hu'
+access_secret <- 'ZNscFMCMQX9ercbLgN16ROrsFULA0GX04k0BMgS7VvnAQ'
+
+setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret) #accesso a Twitter
+1 ##para confirmar la autenticacion
+
+```
+
+## 2.2 Metodos
+### 2.2.1 Search Tweets
+
++	Buscamos número de Tweets sobre un tema determinado
++ Usamos el bucle for pasandole parametros a la funcion searchTwitter
++ Como resultado tenemos un archivo con nombre de ataque y le añadimos extension .rds
+
+```{r r_sample2, echo=TRUE, eval=FALSE}
+
+searchTweets <- function(name){
+  require(twitteR)
+  require(RCurl)
+
+  
+  ltw <- list()
+  for (x in 1:100){
+    searchResults <- searchTwitter(name, since='2017-05-07', sinceID=x*5000, n=5000)
+    ltw[[x]] <- twListToDF(searchResults)
+  }
+  df.tw <- plyr::ldply(ltw)
+  #nomestw<-df.tw %>% filter(isRetweet == FALSE)
+  saveRDS(df.tw, file = name + ".rds")
+}
+
+```
+
+
+### 2.2.2 Paint Countries
+
++ Sacamos dataFrame guardado en la busqueda
++ Buscamos informacion sobre los usuarios
++ Convertimos a DataFrame
++ Guardamos la informacion relativa a la localitzacion de los usuarios
++ API para conseguir la localización aproximada de los usuarios a partir de la Latitud, Longitud
++ Recogemos el Tweet
++ Realizamos busqueda
++ Pasamos a Dataframe
++ Recogemos la ultima palabra que corresponde al pais
++ Devuelve tanto nombre largo (ej. United Kingdom) como abreviatura/nombre corto (ej. UK) por lo tanto unificamos a abreviatura
++ Pintamos paises por tweets en el mapa
+
+```{r r_sample3, echo=TRUE, eval=FALSE}
+
+paintContries <- function(file){
+  require("twitteR")
+  require("RCurl")
+  require("dismo")
+  require("maps")
+  require("ggplot2")
+  require("XML")
+  require("plyr")
+  require("stringr")
+
+ 
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+
+  userInfo <- lookupUsers(tweetFrame$screenName)  # buscamos informacion sobre los usuarios
+  userFrame <- twListToDF(userInfo)  # Convertimos a DataFrame
+
+  locatedUsers <- !is.na(userFrame$location)  # Guardamos la informacion relativa a la localitzacion de los usuarios
+  locations <- geocode(userFrame$location[locatedUsers])  # API para conseguir la localizacion aproximada de los usuarios a partir de latitud i longitud.
+  with(locations, plot(longitude, latitude))
+
+  # cogemos el tweet
+  localitzacio = locations$interpretedPlace
+  deleteNA = is.na(localitzacio) #buscamos NA
+  localitzacioNoNA = localitzacio[!deleteNA] #eliminamos NA
+  dtm <- as.data.frame(localitzacioNoNA) #pasamos a dataframe
+  dtmCountrys <- word(localitzacioNoNA,-1) #cogemos la ultima palabra que corresponde al pais
+  dtmCountrys[dtmCountrys=="Kingdom"]<-"UK" #devuelve tanto United Kingdom como UK por lo tanto unificamos a UK
+  dtmCountrys
+
+  dtmNumCountrys <- data.frame(table(unlist(strsplit(tolower(dtmCountrys), " "))))
+  return(pie(dtmNumCountrys$Freq, dtmNumCountrys$Var1, main="Tweets/Country"))
+}
+
+```
+
+
+### 2.2.3 Paint Tweets Days
+
++ Sacamos dataFrame guardado en la busqueda
++ Modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos
++ Recogemos la columna created
++ Dibujamos el grafico
++ Como resultado tenemos un grafico con el numero de tweets de cada dia
+
+
+```{r r_sample4, echo=TRUE, eval=FALSE}
+
+paintTweetsDays <- function(file){
+  require("magrittr")
+  require("dplyr")
+  require("ggplot2")
+
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+  tweetFrame$created <- as.Date(as.POSIXct(trunc(tweetFrame$created, "days"), 'GMT')) #modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos
+
+  tweetFrame %>%
+  count(created, sort = TRUE) %>% #cogemos la columna created
+  filter(n > 100) %>%
+  mutate(created = reorder(created, n)) %>%
+  ggplot(aes(created, n)) + #dibujamos el grafico
+  geom_col() +
+  xlab(NULL) +
+  return(coord_flip()) #ejes coordenadas
+}
+
+```
+
+
+### 2.2.4 Paint World Map
+
++ Sacamos dataFrame guardado en la busqueda
++ Buscamos informacion sobre los usuarios
++ Convertimos a DataFrame
++ Guardamos la informacion relativa a la localitzacion de los usuarios
++ API para conseguir la localización aproximada de los usuarios a partir de la Latitud, Longitud
++ Pintamos el mapa
++ Añadimos un punto por usuario
++ Conservamos la relacion de altura / anchura (proporciones)
++ Quitamos informacion no util del fondo
++ Como resultado dibujamos información de códigos geográficos de tweets sobre un mapa global
+
+```{r r_sample5, echo=TRUE, eval=FALSE}
+
+paintWorldMap <- function(file){
+  require("twitteR")
+  require("RCurl")
+  require("dismo")
+  require("maps")
+  require("ggplot2")
+  require("XML")
+  require("plyr")
+  require("stringr")
+
+ 
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+
+  userInfo <- lookupUsers(tweetFrame$screenName)  # Buscamos informacion sobre los usuarios
+  userFrame <- twListToDF(userInfo)  # Convertimos a DataFrame
+
+  locatedUsers <- !is.na(userFrame$location)  # Guardamos la informacion relativa a la localitzacion de los usuarios
+
+  locations <- geocode(userFrame$location[locatedUsers])  # API para conseguir la localizacion aproximada de los usuarios a partir de latitud i longitud.
+  with(locations, plot(longitude, latitude))
+
+  worldMap <- map_data("world")  # Mapamundi
+
+  zp1 <- ggplot(worldMap) # Pintamos el mapa
+  #tratamos el mapa
+  zp1 <- zp1 + geom_path(aes(x = long, y = lat, group = group), colour = gray(2/3), lwd = 1/3)
+  # Afegim un punt per usuari
+  zp1 <- zp1 + geom_point(data = locations, aes(x = longitude, y = latitude), colour = "RED", alpha = 1/2, size = 1/3)
+  zp1 <- zp1 + coord_equal() # permite conservar la relacion altura ancho (proporciones)
+  zp1 <- zp1 + theme_minimal()  # quitar información no útil del fondo
+  return(zp1)
+}
+
+```
+
+
+### 2.2.5 Word Cloud Tweets
+
++ Sacamos dataFrame guardado en la busqueda
++ Recogemos el tweet
++ Limpiamos el tweets quitando comas, numeros, link html, espacios, caracteres raros (@, ^, \\, :, etc.)
++ Dividimos la frase en palabras sueltas eliminando conectores comunes
++ Eliminamos conectores comunes
++ Pintamos World cloud graphic con los tweets
+
+```{r r_sample6, echo=TRUE, eval=FALSE}
+
+wordCloudTweets <- function(file){
+  require("twitteR")
+  require("RCurl")
+  require("dismo")
+  require("maps")
+  require("ggplot2")
+  require("XML")
+  require("plyr")
+  require("stringr")
+
+  tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
+
+  # cogemos el tweet
+  tweet_texto = tweetFrame$text
+  ## opcional.... pero importante ... limpiamos el tweet
+  # eliminamos las partes que no nos interesan
+  tweet_texto = gsub('(RT|via)((?:\\b\\W*@\\w+)+)', '', tweet_texto)
+  # eliminamos las personas @..
+  tweet_texto = gsub('@\\w+', '', tweet_texto)
+  # eliminamos signos de puntuacion
+  tweet_texto = gsub('[[:punct:]]', '', tweet_texto)
+  # eliminamos numeros..
+  tweet_texto = gsub('[[:digit:]]', '', tweet_texto)
+  # eliminamos links html
+  tweet_texto = gsub('http\\w+', '', tweet_texto)
+  # eliminamos espacios innecesarios
+  tweet_texto = gsub('[ \t]{2,}', '', tweet_texto)
+  # eliminamos caracteres raros..
+  tweet_texto = gsub('[^[:graph:]]', ' ', tweet_texto)
+
+  splitData <- unlist(strsplit(tweet_texto, "\\ ")) #spliteamos la frase en palabras sueltas
+  #adicionalmente eliminamos conectores comunes....
+  stopwords = c("are" ,
+                "able" ,
+                "about" ,
+                "above" ,
+                "the" ,
+                "a" ,
+                "",
+                " ",
+                "and",
+                "has",
+                "this" ,
+                "our" ,
+                "you've" ,
+                "for")
+  splitData <- removeWords(splitData,stopwords)
+  #dataFrameWords <- as.data.frame(splitData)
+  #m <- as.matrix(dataFrameWords)
+  #numWords <- count(dataFrameWords)
+
+  z <- Corpus(VectorSource(splitData)) #objeto para pintar...
+
+  return(wordcloud(z, max.words = 100, random.order = FALSE))
+}
+
+
+```
+
+
+### 2.2.6 Paint Tweet Comparison
+
++ Usamos el metodo matrix 
++ Pintamos la grafica en columnas
++ Como resultado obtenemos un grafico de comparación de tweets
+
+
+```{r r_sample7, echo=TRUE, eval=FALSE}
+
+paintTweetsComparation <- function(file, file2, file3){
+  require(RCurl)
+  require(dismo)
+  require(httr)
+  require(XML)
+
+  ntweets <- nrow(readRDS(file = file))
+  ntweets2 <- nrow(readRDS(file = file2))
+  ntweets3 <- nrow(readRDS(file = file3))
+
+  graphic <- matrix(c(ntweets,ntweets2,ntweets3),ncol=3,byrow=TRUE)
+  colnames(graphic) <- c("Wannacry","Playstation DDoS","nAtac3")
+  graphic <- as.table(graphic)
+  #graphic
+
+  return(barplot(graphic, main = "Comparación nº tweets ataques"))
+}
+
+
+```
+
+
+
+# 3.	A continuación unos gráfico que muestran la relación entre número de tweets y los ataques analizados
+
+## 3.1 DDoS Playstation 
+
+Fecha: 21 octubre 2016
+
+Quien: botnet Mirai
+
+Empresa afectada: Ataque de denegación de servicio (DDoS) a Play Station y Twitter, entre otros   
+
+Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de Internet de las cosas (IoT). Producido por la botnet Mirai, compuesta por cientos de miles de cámaras IP junto a otros dispositivos IoT, dejó fuera de juego a múltiples servicios de Internet, llegando a afectar a Play Station Network y Twitter, entre otros. Se sospecha que este ciberataque habría sido también una prueba de concepto para afectar al funcionamiento de los sistemas de voto electrónico de EE.UU., antes de las elecciones del 8 de noviembre. 
+
+
+### 3.1.1 DDoS Playstation grafico
+
+<!-- grafico Playstation -->
+
+
+### 3.1.2 DDoS Playstation mapamundi
+
+<!-- mapamundi Playstation -->
+
+
+### 3.1.3 DDoS Playstation apple
+
+<!-- llamada a las funciones  -->
+
+```{r r_sample15, echo=FALSE}
+  library(cyberAttacks)
+  paintContries("playstation.rds")
+```
+
+
+### 3.1.4 DDoS Playstation palabras repetidas
+
+<!-- palabras repetidas Playstation -->
+
+
+## 3.2 Wannacry 
+
+Fecha: 12 mayo 2017
+
+Quien: origen no claro, Rusia o EEUU
+
+Empresa afectada: afectó a las empresas Telefónica, Iberdrola y Gas Natural, entre otras compañías en España, así como al servicio de salud británico, como confirmó el Centro Nacional de Inteligencia. La prensa digital informaba aquel día que al menos 141 000 computadores habían sido atacados en todo el mundo.
+
+Resumen: WannaCry es otro ransomware, una evolución de lo que podría ser CryptoLocker. Es un tipo de virus, del formato troyano, con la capacidad de introducirse en nuestro equipo explotando una vulnerabilidad de software.
+
+El ransomware tiene como objetivo cifrar los archivos del equipo infectado para pedir un rescate vía BitCoins. Para que el proceso de encriptación sea más rápido solo encripta aquellos ficheros más críticos del usuario (doc, jpg, pdf) evitando encriptar archivos del sistema, para mayor velocidad.
+
+### 3.2.1 Wannacry grafico
+
+<!-- grafico Wannacry -->
+
+
+### 3.2.2 Wannacry mapamundi
+
+<!-- mapamundi Wannacry -->
+
+
+### 3.2.3 Wannacry apple
+
+<!-- apple Wannacry -->
+
+
+### 3.2.4 Wannacry palabras repetidas
+
+<!-- palabras repetidas Wannacry -->
+
+
+## 3.3 Petya 
+
+Fecha: fecha inicio virus marzo 2016, primer gran ciberataque 28 junio 2017
+
+Quien: Janus, que así se hace llamar este usuario en su cuenta de Twitter
+
+Empresa afectada: 80 empresas fueron atacadas, incluyendo el Banco Nacional de Ucrania.
+
+Resumen: El 27 de junio de 2017, comenzó un ciberataque mundial (las compañías ucranianas fueron las primeras en afirmar que estaban siendo atacadas), utilizando una nueva variante de Petya.3 En ese día, Kaspersky Lab informó de infecciones en Francia, Alemania, Italia, Polonia, Reino Unido y Estados Unidos, pero que la mayoría de las infecciones se dirigieron a Rusia y Ucrania.
+
+Este malware utiliza ingeniería social para convencer a usuarios (o a administradores de redes) de descargar un archivo que al abrirlo se autoextrae y ejecuta el troyano. Al ejecutarse aparece una alerta de Windows. Si el usuario prosigue, Petya se aloja el registro de arranque principal del la computadora de la víctima, desactiva el modo de inicio seguro de Windows y el equipo se reinicia. Al reiniciar, aparecen ventanas de alerta indicando que el equipo ha sido secuestrado y cómo acceder al sitio de los secuestradores para pagar el rescate antes del vencimiento de un plazo de tiempo. Al vencerse el plazo de tiempo, el monto del rescate se duplica.
+
+
+### 3.3.1 Petya grafico
+
+<!-- grafico Petya -->
+
+
+### 3.3.2 Petya mapamundi
+
+<!-- mapamundi Petya -->
+
+
+### 3.3.3 Petya apple
+
+<!-- apple Petya -->
+
+
+### 3.3.4 Petya palabras repetidas
+
+<!-- palabras repetidas Petya -->
+
+
+## 3.4 KeyRaider 
+
+Fecha: septiembre 2015
+
+Quien: ?
+
+Empresa afectada: Apple
+
+Resumen: Investigadores en seguridad informática descubrieron en septiembre de 2015 una familia de virus bautizada “KeyRaider” que ataca los iPhone e iPad, y ya había logrado piratear más de 225.000 cuentas de Apple válidas. 
+
+El virus intercepta las comunicaciones entre el aparato infectado y el distribuidor de música iTunes, y roba las informaciones de compra. Los usuarios de 18 países, entre ellos Estados Unidos, Japón o Gran Bretaña, se ven afectados.
+
+
+### 3.4.1 KeyRaider grafico
+
+<!-- grafico KeyRaider -->
+
+
+### 3.4.2 KeyRaider mapamundi
+
+<!-- mapamundi KeyRaider -->
+
+
+### 3.4.3 KeyRaider apple
+
+<!-- apple KeyRaider -->
+
+
+### 3.4.4 KeyRaider palabras repetidas
+
+<!-- palabras repetidas KeyRaider -->
+
+
+## 3.5 Judy
+
+Fecha: mayo 2017
+
+Quien: Se especula con la idea de que el virus fue creado y extendido por hackers de Corea del Sur a través de una compañía llamada Kiniwini.
+
+Empresa afectada: dispositivos Android
+
+Resumen: posiblemente el ataque más grande a dispositivos Android Cuando un usuario se descargaba e instalaba algunos de los juegos de Judy, la aplicación abría una pasarela que conectaba el dispositivo con una web en la que se pinchaba en enlaces de publicidad que generaban ingresos a los hackers a través de la infraestructura publicitaria de Google. 
+Todo esto de manera oculta y sin conocimiento del usuario.
+
+
+### 3.5.1 Judy grafico
+
+<!-- grafico Judy -->
+
+
+### 3.5.2 Judy mapamundi
+
+<!-- mapamundi Judy -->
+
+
+### 3.5.3 Judy apple
+
+<!-- apple Judy -->
+
+
+### 3.5.4 Judy palabras repetidas
+
+<!-- palabras repetidas Judy -->
+
+
+
+# Comparación resultados / Conclusíones
+
+En base a los ejemplos de ciberataques analizados en este trabajo, entendemos que se puede detectar una tendencia de incremento de la concienciación de los usuarios. Las redes sociales no son el mundo real, pero dan pistas que no deben tomarse a la ligera. 
+Entendemos que el hecho de que los usuarios traten de buscar, cada vez en mayor medida, información en las redes sociales (en nuestro caso en Twitter) refleja:
+
++ a.	Una mayor concienciación de los riesgos que implican estos ataques
++ b.	Un mayor conocimiento del impacto que pueden tener los ciberataques
++ c.	Hay una relación bastante evidente entre los países más desarrollados y el nivel de interés/consultas/búsquedas sobre los ciberataques
+
+Como se muestra a continuación estamos comparando los resultados de diferentes ataques 
+
+<!-- grafico comparacion -->
+
+
+
+# Material Complementario - Proyecto
+
++ [GitHub Proyecto](https://github.com/FabiPaezF)
+
