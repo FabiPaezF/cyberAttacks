@@ -338,11 +338,11 @@ Sin embargo es sorprendente que actualmente no se haga la misma incidencia sobre
 El presente trabajo pretende asimismo ver si la concienciación de los usuarios sobre los riesgos de los ciberataques ha evolucionado. Este análisis lo realizaremos estudiando diversos ataques ocurridos en los últimos años. Dado que el presente trabajo se limita a unos casos concretos, solamente podremos determinar si existe una tendencia.
 
 
-### Datos accesibles y obtenidos
+### Datos accesibles y obtenidos FLOJO!! MODIFICAR
 
-Hemos accedido a la página de Twitter y hemos obtenido los API para así poder acceder a la información que necesitábamos para realizar el presente trabajo.
+Para poder obtener la información y así poder responder a la pregunta formulada se ha utilizado el API de twitter con el objetivo de así poder utilizar sus metodos con la finalidad de obtener la informació para posteriormete procesarla.
 
-El programa que hemos desarrollado en el marco de este trabajo tiene como objetivo detectar el número de tweets que se han producido en relación con determinados ciberataques. 
+El proyecto desarrollado en el marco de este trabajo tiene como objetivo detectar .. MODIFICAR ...
 
 Hemos analizado datos correspondientes a los años 2015, 2016 y 2017.
 
@@ -358,7 +358,7 @@ WannaCry , DDoS Playstation , Judy , Petya , Keyrayder .
 
 ## 2.1 Aplicando el código que hemos desarrollado:
 
-+	API Twitter - Accedemos a Twitter con la función setup_twitter_oauth
++	API Twitter - Accedemos a Twitter con la función setup_twitter_oauth mediante claves generadas una vez realizado el proceso de registro de un nuevo usuario.
 
 ```{r r_sample1, echo=TRUE, eval=FALSE}
 consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
@@ -374,9 +374,9 @@ setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret) 
 ## 2.2 Metodos
 ### 2.2.1 Search Tweets
 
-+	Buscamos número de Tweets sobre un tema determinado
-+ Usamos el bucle for pasandole parametros a la funcion searchTwitter
-+ Como resultado tenemos un archivo con nombre de ataque y le añadimos extension .rds
++	Buscamos los Tweets que contengan la palabra contenida en la variable "name".
++ Realizamos un bucle mediante la sentencia for, con el objetivo de realizar varias busquedas y guardar esta información de manera ordenada.
++ Como resultado de la ejecución de este fragmento de codigo obtenemos un documento con nombre "nombreAtaque.rds". La extensión .rds nos permite guardar y posteriormente recuperar el dataFrame tal y como se habia guardado.
 
 ```{r r_sample2, echo=TRUE, eval=FALSE}
 
@@ -400,17 +400,15 @@ searchTweets <- function(name){
 
 ### 2.2.2 Paint Countries
 
-+ Sacamos dataFrame guardado en la busqueda
-+ Buscamos informacion sobre los usuarios
-+ Convertimos a DataFrame
-+ Guardamos la informacion relativa a la localitzacion de los usuarios
-+ API para conseguir la localización aproximada de los usuarios a partir de la Latitud, Longitud
-+ Recogemos el Tweet
-+ Realizamos busqueda
-+ Pasamos a Dataframe
-+ Recogemos la ultima palabra que corresponde al pais
-+ Devuelve tanto nombre largo (ej. United Kingdom) como abreviatura/nombre corto (ej. UK) por lo tanto unificamos a abreviatura
-+ Pintamos paises por tweets en el mapa
++ Recuperamos el dataFrame guardado en el fichero .rds.
++ Buscamos informacion sobre los usuarios.
++ Convertimos esta nueva información a DataFrame.
++ Guardamos la informacion relativa a la localitzacion de los usuarios.
++ Utilizando el metodo geocode de ggplot2 podemos conseguir localización aproximada de los usuarios a partir de la Latitud, Longitud.
++ Empezamos con el proceso de limpieza de los paises. Primero eliminando los NA.
++ Seguidamente nos quedamos con los paises.
++ Devuelve tanto nombre largo (ej. United Kingdom) como abreviatura/nombre corto (ej. UK) por lo tanto unificamos a abreviatura (UK).
++ Creamos un gràfico circular que representa como se ha dividido el número de tweets en los paises.
 
 ```{r r_sample3, echo=TRUE, eval=FALSE}
 
@@ -452,7 +450,7 @@ paintContries <- function(file){
 
 ### 2.2.3 Paint Tweets Days
 
-+ Sacamos dataFrame guardado en la busqueda
++ Recuperamos el dataFrame guardado en el fichero .rds.
 + Modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos
 + Recogemos la columna created
 + Dibujamos el grafico
@@ -484,7 +482,7 @@ paintTweetsDays <- function(file){
 
 ### 2.2.4 Paint World Map
 
-+ Sacamos dataFrame guardado en la busqueda
++ Recuperamos el dataFrame guardado en el fichero .rds.
 + Buscamos informacion sobre los usuarios
 + Convertimos a DataFrame
 + Guardamos la informacion relativa a la localitzacion de los usuarios
@@ -535,7 +533,7 @@ paintWorldMap <- function(file){
 
 ### 2.2.5 Word Cloud Tweets
 
-+ Sacamos dataFrame guardado en la busqueda
++ Recuperamos el dataFrame guardado en el fichero .rds.
 + Recogemos el tweet
 + Limpiamos el tweets quitando comas, numeros, link html, espacios, caracteres raros (@, ^, \\, :, etc.)
 + Dividimos la frase en palabras sueltas eliminando conectores comunes
@@ -606,9 +604,9 @@ wordCloudTweets <- function(file){
 
 ### 2.2.6 Paint Tweet Comparison
 
-+ Usamos el metodo matrix 
-+ Pintamos la grafica en columnas
-+ Como resultado obtenemos un grafico de comparación de tweets
++ Contamos el numero de linias de cada fichero .rds con el objetivo de determinar el numero de tweets de cada ataque.
++ Creamos una matrix que contiene por una parte el numero de tweets y por otra el nombre del ataque.
++ Como resultado obtenemos un grafico que permite comparar el numero de tweets producidos entre varios ataques.
 
 
 ```{r r_sample7, echo=TRUE, eval=FALSE}
