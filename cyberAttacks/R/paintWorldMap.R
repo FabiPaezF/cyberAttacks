@@ -39,5 +39,5 @@ paintWorldMap <- function(file){
   zp1 <- zp1 + geom_point(data = locations, aes(x = longitude, y = latitude), colour = "RED", alpha = 1/2, size = 1/3)
   zp1 <- zp1 + coord_equal() # permite conservar la relacion altura ancho (proporciones)
   zp1 <- zp1 + theme_minimal()  # quitar información no útil del fondo
-  return(zp1)
+  print(zp1)
 }

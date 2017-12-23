@@ -5,7 +5,7 @@
 #'@param file2 A data frame with the attack 2 information.
 #'@param file3 A data frame with the attack 3 information.
 #'@export
-paintTweetsComparation <- function(file, file2, file3, file4, file5){
+paintTweetsComparation <- function(file, file2, file3){
   require(RCurl)
   require(dismo)
   require(httr)
@@ -14,11 +14,9 @@ paintTweetsComparation <- function(file, file2, file3, file4, file5){
   ntweets <- nrow(readRDS(file = file))
   ntweets2 <- nrow(readRDS(file = file2))
   ntweets3 <- nrow(readRDS(file = file3))
-  ntweets4 <- nrow(readRDS(file = file4))
-  ntweets5 <- nrow(readRDS(file = file5))
 
-  graphic <- matrix(c(ntweets,ntweets2,ntweets3,ntweets4,ntweets5),ncol=3,byrow=TRUE)
-  colnames(graphic) <- c("Wannacry","Playstation DDoS","Petya", "Keyraider", "Judy")
+  graphic <- matrix(c(ntweets,ntweets2,ntweets3),ncol=3,byrow=TRUE)
+  colnames(graphic) <- c("Wannacry", "Petya", "Judy")
   graphic <- as.table(graphic)
   #graphic
 

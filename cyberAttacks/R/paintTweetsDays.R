@@ -18,5 +18,5 @@ paintTweetsDays <- function(file){
   ggplot(aes(created, n)) + #dibujamos el grafico
   geom_col() +
   xlab(NULL) +
-  return(coord_flip()) #ejes coordenadas
+  print(coord_flip()) #ejes coordenadas
 }

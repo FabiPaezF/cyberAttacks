@@ -43,5 +43,5 @@ paintContries <- function(file){
   dtmCountrys
 
   dtmNumCountrys <- data.frame(table(unlist(strsplit(tolower(dtmCountrys), " "))))
-  return(pie(dtmNumCountrys$Freq, dtmNumCountrys$Var1, main="Tweets/Country"))
+  print(pie(dtmNumCountrys$Freq, dtmNumCountrys$Var1, main="Tweets/Country"))
 }

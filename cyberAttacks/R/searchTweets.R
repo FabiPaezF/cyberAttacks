@@ -16,12 +16,12 @@ searchTweets <- function(name){
   1
 
   ltw <- list()
-  for (x in 1:100){
-    searchResults <- searchTwitter(name, since='2017-05-07', sinceID=x*5000, n=5000)
+  for (x in 1:3){
+    searchResults <- searchTwitter(name, since='2017-05-07', sinceID=x*1000, n=1000)
     ltw[[x]] <- twListToDF(searchResults)
   }
   df.tw <- plyr::ldply(ltw)
   #nomestw<-df.tw %>% filter(isRetweet == FALSE)
-  saveRDS(df.tw, file = name + ".rds")
+  saveRDS(df.tw, file = name)
 }
 
