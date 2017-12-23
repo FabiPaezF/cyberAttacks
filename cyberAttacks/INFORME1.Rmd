@@ -631,6 +631,8 @@ Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de I
 
 ### 3.1.1 DDoS Playstation grafico
 
+En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
+
 <!-- grafico Playstation -->
 ```{r r_sample1, echo=FALSE}
   library(cyberAttacks)
@@ -639,6 +641,8 @@ Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de I
 
 ### 3.1.2 DDoS Playstation mapamundi
 
+En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
+
 <!-- mapamundi Playstation 
 ```{r r_sample2, echo=FALSE}
   library(cyberAttacks)
@@ -646,6 +650,8 @@ Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de I
 ```
 -->
 ### 3.1.3 DDoS Playstation apple
+
+En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
 
 <!-- llamada a las funciones  -->
 
@@ -656,6 +662,8 @@ Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de I
 
 
 ### 3.1.4 DDoS Playstation palabras repetidas
+
+Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Playstation -->
 ```{r r_sample4, echo=FALSE}
@@ -677,6 +685,8 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
 
 ### 3.2.1 Wannacry grafico
 
+En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
+
 <!-- grafico Wannacry 
 ```{r r_sample5, echo=FALSE}
   library(cyberAttacks)
@@ -685,6 +695,7 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
 -->
 ### 3.2.2 Wannacry mapamundi
 
+En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 <!-- mapamundi Wannacry
 
 ```{r r_sample6, echo=FALSE}
@@ -694,6 +705,7 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
  -->
 ### 3.2.3 Wannacry apple
 
+En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
 <!-- apple Wannacry 
 
 ```{r r_sample7, echo=FALSE}
@@ -702,6 +714,8 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
 ```
 -->
 ### 3.2.4 Wannacry palabras repetidas
+
+Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Wannacry 
 ```{r r_sample8, echo=FALSE}
@@ -725,6 +739,8 @@ Este malware utiliza ingeniería social para convencer a usuarios (o a administr
 
 ### 3.3.1 Petya grafico
 
+En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
+
 <!-- grafico Petya -->
 ```{r r_sample9, echo=FALSE}
   library(cyberAttacks)
@@ -732,6 +748,8 @@ Este malware utiliza ingeniería social para convencer a usuarios (o a administr
 ```
 
 ### 3.3.2 Petya mapamundi
+
+En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 <!-- mapamundi Petya 
 ```{r r_sample10, echo=FALSE}
@@ -741,6 +759,8 @@ Este malware utiliza ingeniería social para convencer a usuarios (o a administr
  -->
 ### 3.3.3 Petya apple
 
+En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+
 <!-- apple Petya -->
 
 ```{r r_sample11, echo=FALSE}
@@ -749,6 +769,8 @@ Este malware utiliza ingeniería social para convencer a usuarios (o a administr
 ```
 
 ### 3.3.4 Petya palabras repetidas
+
+Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Petya -->
 ```{r r_sample12, echo=FALSE}
@@ -771,6 +793,8 @@ El virus intercepta las comunicaciones entre el aparato infectado y el distribui
 
 ### 3.4.1 KeyRaider grafico
 
+En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
+
 <!-- grafico KeyRaider -->
 ```{r r_sample13, echo=FALSE}
   library(cyberAttacks)
@@ -778,6 +802,8 @@ El virus intercepta las comunicaciones entre el aparato infectado y el distribui
 ```
 
 ### 3.4.2 KeyRaider mapamundi
+
+En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 <!-- mapamundi KeyRaider -->
 ```{r r_sample14, echo=FALSE}
@@ -787,6 +813,9 @@ El virus intercepta las comunicaciones entre el aparato infectado y el distribui
 
 ### 3.4.3 KeyRaider apple
 
+
+En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+
 <!-- apple KeyRaider -->
 ```{r r_sample15, echo=FALSE}
   library(cyberAttacks)
@@ -794,6 +823,8 @@ El virus intercepta las comunicaciones entre el aparato infectado y el distribui
 ```
 
 ### 3.4.4 KeyRaider palabras repetidas
+
+Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas KeyRaider -->
 ```{r r_sample16, echo=FALSE}
@@ -815,6 +846,8 @@ Todo esto de manera oculta y sin conocimiento del usuario.
 
 ### 3.5.1 Judy grafico
 
+En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
+
 <!-- grafico Judy -->
 ```{r r_sample17, echo=FALSE}
   library(cyberAttacks)
@@ -822,6 +855,8 @@ Todo esto de manera oculta y sin conocimiento del usuario.
 ```
 
 ### 3.5.2 Judy mapamundi
+
+En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 <!-- mapamundi Judy -->
 ```{r r_sample18, echo=FALSE}
@@ -831,6 +866,8 @@ Todo esto de manera oculta y sin conocimiento del usuario.
 
 ### 3.5.3 Judy apple
 
+En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+
 <!-- apple Judy -->
 ```{r r_sample19, echo=FALSE}
   library(cyberAttacks)
@@ -838,6 +875,8 @@ Todo esto de manera oculta y sin conocimiento del usuario.
 ```
 
 ### 3.5.4 Judy palabras repetidas
+
+Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Judy -->
 ```{r r_sample20, echo=FALSE}
@@ -855,7 +894,7 @@ Entendemos que el hecho de que los usuarios traten de buscar, cada vez en mayor 
 + b.	Un mayor conocimiento del impacto que pueden tener los ciberataques.
 + c.	Hay una relación bastante evidente entre los países más desarrollados y el nivel de interés/consultas/búsquedas sobre los ciberataques.
 
-Como se muestra a continuación estamos comparando los resultados de diferentes ataques: 
+Como se muestra a continuación, la siguiente gráfica compara el numero de tweets de los diferentes ataques análizados:
 
 <!-- grafico comparacion -->
 
