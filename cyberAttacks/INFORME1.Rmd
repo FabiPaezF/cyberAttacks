@@ -130,7 +130,7 @@ paintTweetsDays <- function(file){
 ```
 
 
-<!-- funcion paintWorldMap -->
+<!-- funcion paintWorldMap 
 
 ```{r r_sample34 , echo=FALSE}
 
@@ -179,7 +179,7 @@ paintWorldMap <- function(file){
 }
 
 ```
-
+-->
 
 <!-- funcion searchTweets -->
 
@@ -279,18 +279,12 @@ wordCloudTweets <- function(file){
 
 ```
 
-
-
 <!-- fin declaracion funciones -->
-
-
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(fig.align = 'center')
 ```
-
 
 ```{r bootstrap, message=FALSE, warning=FALSE, include=FALSE}
 if (!suppressMessages(suppressWarnings(require("plyr", quietly = T)))) {
@@ -329,25 +323,19 @@ En la actualidad, Twitter factura más de 2.500 millones de dólares anuales y t
 
 La gente suele ser consciente de los riesgos existentes en su día a día. Por ejemplo, todo el mundo tiene un mínimo conocimiento de seguridad viaria o recibe una información básica sobre riesgos laborales en el desarrollo de su actividad profesional.
 
-Sin embargo es sorprendente que actualmente no se haga la misma incidencia sobre los potenciales riesgos de los usuarios cuando utilizan cualquier dispositivo tecnológico. Existe una gran ignorancia sobre los riesgos que un mal uso pueden suponer por ejemplo para la actividad de una empresa. Todos conocemos casos de empresas que han tenido que suspender temporalmente su actividad por un ciberataque o casos en que información extremadamente sensible ha sido sustraída.
+Sin embargo, es sorprendente que actualmente no se haga la misma incidencia sobre los potenciales riesgos de los usuarios cuando utilizan cualquier dispositivo tecnológico. Existe una gran ignorancia sobre los riesgos que un mal uso pueden suponer, por ejemplo, para la actividad de una empresa. Todos conocemos casos de empresas que han tenido que suspender temporalmente su actividad por un ciberataque o casos en que información extremadamente sensible ha sido sustraída.
 
 El presente trabajo pretende asimismo ver si la concienciación de los usuarios sobre los riesgos de los ciberataques ha evolucionado. Este análisis lo realizaremos estudiando diversos ataques ocurridos en los últimos años. Dado que el presente trabajo se limita a unos casos concretos, solamente podremos determinar si existe una tendencia.
 
 
-### Datos accesibles y obtenidos FLOJO!! MODIFICAR
+### Obtención de datos
+Los datos utilizados para el análisis han sido extraidos de la API de Twitter. La API de Twitter dispone de multiples métodos para extraer información de los tweets de los usuarios. En nuestro caso, hemos usado la función search() para buscar los tweets relacionados con diferentes ataques cybernéticos  correspondientes a los años 2015, 2016 y 2017.
 
-Para poder obtener la información y así poder responder a la pregunta formulada se ha utilizado el API de twitter con el objetivo de así poder utilizar sus metodos con la finalidad de obtener la informació para posteriormete procesarla.
-
-El proyecto desarrollado en el marco de este trabajo tiene como objetivo detectar .. MODIFICAR ...
-
-Hemos analizado datos correspondientes a los años 2015, 2016 y 2017.
-
+Esta busqueda ha sido limitada al no disponer de una cuenta premium del servicio. Además, a lo largo del proceso nos hemos dado cuenta de ciertas limitaciones que han condicionado los resultados. La API gratuita solo dispone de los tweets de los últimos días. Por otro lado, debido al poco tiempo para relizar la práctica, hemos tenido que limitar la cantidad de información al tardar mucho los procesos de obtención de gráficso implementados por la gran cantidad de datos.
 
 ### Ciberataques referenciados
 
-Los ciberataques que hemos tomado como referencia para realizar el trabajo son los siguientes : 
-
-WannaCry , DDoS Playstation , Judy , Petya , Keyrayder .
+Los ciberataques que hemos tomado como referencia para realizar el trabajo son los siguientes: WannaCry, DDoS Playstation, Judy, Petya, Keyrayder.
 
 
 # 2. Creación de código y análisis de los datos
@@ -372,7 +360,7 @@ setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret) 
 
 +	Buscamos los Tweets que contengan la palabra contenida en la variable "name".
 + Realizamos un bucle mediante la sentencia for, con el objetivo de realizar varias busquedas y guardar esta información de manera ordenada.
-+ Como resultado de la ejecución de este fragmento de codigo obtenemos un documento con nombre "nombreAtaque.rds". La extensión .rds nos permite guardar y posteriormente recuperar el dataFrame tal y como se habia guardado.
++ Como resultado de la ejecución de este fragmento de código obtenemos un documento con nombre "nombreAtaque.rds". La extensión .rds nos permite guardar y posteriormente recuperar el dataFrame tal y como se habia guardado.
 
 ```{r r_sample37, echo=TRUE, eval=FALSE}
 
@@ -625,9 +613,7 @@ paintTweetsComparation <- function(file, file2, file3){
   return(barplot(graphic, main = "Comparación nº tweets ataques"))
 }
 
-
 ```
-
 
 
 # 3.	A continuación unos gráfico que muestran la relación entre número de tweets y los ataques analizados
@@ -653,12 +639,12 @@ Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de I
 
 ### 3.1.2 DDoS Playstation mapamundi
 
-<!-- mapamundi Playstation -->
+<!-- mapamundi Playstation 
 ```{r r_sample2, echo=FALSE}
   library(cyberAttacks)
-  wordCloudTweets("playstation.rds")
+  paintWorldMap("playstation.rds")
 ```
-
+-->
 ### 3.1.3 DDoS Playstation apple
 
 <!-- llamada a las funciones  -->
@@ -691,12 +677,12 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
 
 ### 3.2.1 Wannacry grafico
 
-<!-- grafico Wannacry -->
+<!-- grafico Wannacry 
 ```{r r_sample5, echo=FALSE}
   library(cyberAttacks)
   paintTweetsDays("wannacry.rds")
 ```
-
+-->
 ### 3.2.2 Wannacry mapamundi
 
 <!-- mapamundi Wannacry
@@ -708,20 +694,21 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
  -->
 ### 3.2.3 Wannacry apple
 
-<!-- apple Wannacry -->
+<!-- apple Wannacry 
 
 ```{r r_sample7, echo=FALSE}
   library(cyberAttacks)
   paintContries("wannacry.rds")
 ```
-
+-->
 ### 3.2.4 Wannacry palabras repetidas
 
-<!-- palabras repetidas Wannacry -->
+<!-- palabras repetidas Wannacry 
 ```{r r_sample8, echo=FALSE}
   library(cyberAttacks)
   wordCloudTweets("wannacry.rds")
 ```
+-->
 
 ## 3.3 Petya 
 
@@ -751,7 +738,7 @@ Este malware utiliza ingeniería social para convencer a usuarios (o a administr
   library(cyberAttacks)
   paintWorldMap("petya.rds")
 ```
-
+ -->
 ### 3.3.3 Petya apple
 
 <!-- apple Petya -->
@@ -861,14 +848,14 @@ Todo esto de manera oculta y sin conocimiento del usuario.
 
 # Comparación resultados / Conclusíones
 
-En base a los ejemplos de ciberataques analizados en este trabajo, entendemos que se puede detectar una tendencia de incremento de la concienciación de los usuarios. Las redes sociales no son el mundo real, pero dan pistas que no deben tomarse a la ligera. 
+En base a los ejemplos de ciberataques analizados en este trabajo, entendemos que se puede detectar una tendencia de incremento a lo largo de los años de la concienciación de los usuarios. Las redes sociales no son el mundo real, pero dan pistas que no deben tomarse a la ligera. 
 Entendemos que el hecho de que los usuarios traten de buscar, cada vez en mayor medida, información en las redes sociales (en nuestro caso en Twitter) refleja:
 
-+ a.	Una mayor concienciación de los riesgos que implican estos ataques
-+ b.	Un mayor conocimiento del impacto que pueden tener los ciberataques
-+ c.	Hay una relación bastante evidente entre los países más desarrollados y el nivel de interés/consultas/búsquedas sobre los ciberataques
++ a.	Una mayor concienciación de los riesgos que implican estos ataques.
++ b.	Un mayor conocimiento del impacto que pueden tener los ciberataques.
++ c.	Hay una relación bastante evidente entre los países más desarrollados y el nivel de interés/consultas/búsquedas sobre los ciberataques.
 
-Como se muestra a continuación estamos comparando los resultados de diferentes ataques 
+Como se muestra a continuación estamos comparando los resultados de diferentes ataques: 
 
 <!-- grafico comparacion -->
 
