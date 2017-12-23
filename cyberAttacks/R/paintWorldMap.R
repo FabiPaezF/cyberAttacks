@@ -4,14 +4,13 @@
 #'@param file A data frame with the attack information.
 #'@export
 paintWorldMap <- function(file){
-  require("twitteR")
-  require("RCurl")
-  require("dismo")
-  require("maps")
-  require("ggplot2")
-  require("XML")
-  require("plyr")
-  require("stringr")
+  require(twitteR)
+  require(RCurl)
+  require(dismo)
+  require(maps)
+  require(ggplot2)
+  require(httr)
+  require(XML)
 
   consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
   consumer_secret <- '4My1RZHZgbYvaA5XBIAcJ11dqpgQtDOEecHR3LoZFcouCr1nL7'

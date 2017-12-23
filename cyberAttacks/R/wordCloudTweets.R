@@ -4,14 +4,11 @@
 #'@param file A data frame with the attack information.
 #'@export
 wordCloudTweets <- function(file){
-  require("twitteR")
-  require("RCurl")
-  require("dismo")
-  require("maps")
-  require("ggplot2")
-  require("XML")
-  require("plyr")
-  require("stringr")
+  require("slam")
+  require("wordcloud")
+  require("RColorBrewer")
+  require("tm")
+  require("dplyr")
 
   tweetFrame <- readRDS(file = file) #Sacamos dataFrame guardado en la busqueda
 
