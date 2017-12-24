@@ -686,12 +686,7 @@ En el gráfico siguiente, podemos observar el número de tweets por día del ata
 ### 3.3.2 Petya mapamundi
 
 En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
-
-
-### 3.3.3 Petya apple
-
-En este gráfico, podemos observar la proporción de tweets por los diferentes países de origen:
-
+![No se carga la imagen](petyaWorldMap.png)
 
 ### 3.3.4 Petya palabras repetidas
 
@@ -712,15 +707,6 @@ Empresa afectada: dispositivos Android
 
 Resumen: posiblemente el ataque más grande a dispositivos Android Cuando un usuario se descargaba e instalaba algunos de los juegos de Judy, la aplicación abría una pasarela que conectaba el dispositivo con una web en la que se pinchaba en enlaces de publicidad que generaban ingresos a los hackers a través de la infraestructura publicitaria de Google. 
 Todo esto de manera oculta y sin conocimiento del usuario.`
-
-### 3.5.1 Judy mapamundi
-
-En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
-
-### 3.5.2 Judy apple
-
-En este gráfico, podemos observar la proporción de tweets por los diferentes países de origen:
-
 
 ### 3.5.3 Judy palabras repetidas
 
