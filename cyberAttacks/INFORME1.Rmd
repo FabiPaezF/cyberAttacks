@@ -310,7 +310,7 @@ Los ciberataques que hemos tomado como referencia para realizar el trabajo son l
 
 ## 2.1 Aplicando el código que hemos desarrollado:
 
-+	API Twitter - Accedemos a Twitter con la función setup_twitter_oauth mediante claves generadas una vez realizado el proceso de registro de un nuevo usuario.
++	API Twitter - Accedemos a Twitter con la función setup_twitter_oauth mediante claves generadas en el proceso de registro de un nuevo usuario.
 
 ```{r r_sample50, echo=TRUE, eval=FALSE}
 consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
@@ -435,15 +435,15 @@ paintTweetsDays <- function(file){
 ### 2.2.4 Paint World Map
 
 + Recuperamos el dataFrame guardado en el fichero .rds.
-+ Buscamos información sobre los usuarios
-+ Convertimos a DataFrame
-+ Guardamos la informacion relativa a la localitzación de los usuarios
-+ API para conseguir la localización aproximada de los usuarios a partir de la Latitud, Longitud
-+ Pintamos el mapa
-+ Añadimos un punto por usuario
-+ Conservamos la relación de altura / anchura (proporciones)
-+ Quitamos información no útil del fondo
-+ Como resultado dibujamos información de códigos geográficos de tweets sobre un mapa global
++ Buscamos información sobre los usuarios.
++ Convertimos a DataFrame.
++ Guardamos la informacion relativa a la localitzación de los usuarios.
++ API para conseguir la localización aproximada de los usuarios a partir de la Latitud, Longitud.
++ Pintamos el mapa.
++ Añadimos un punto por usuario.
++ Conservamos la relación de altura / anchura (proporciones).
++ Quitamos información no útil del fondo.
++ Como resultado pintamos las coordenadas correspondientes a la ubicacion de los tweets sobre un mapamundi.
 
 ```{r r_sample40, echo=TRUE, eval=FALSE}
 
@@ -486,11 +486,11 @@ paintWorldMap <- function(file){
 ### 2.2.5 Word Cloud Tweets
 
 + Recuperamos el dataFrame guardado en el fichero .rds.
-+ Recogemos el tweet
-+ Limpiamos el tweets quitando comas, números, link html, espacios, caracteres raros (@, ^, \\, :, etc.)
-+ Dividimos la frase en palabras sueltas eliminando conectores comunes
-+ Eliminamos conectores comunes
-+ Pintamos World cloud graphic con los tweets
++ Recogemos el tweet (el texto del tweet).
++ Limpiamos los tweets quitando comas, números, link html, espacios, caracteres raros (@, ^, \\, :, etc.).
++ Dividimos la frase en palabras sueltas.
++ Eliminamos conectores comunes.
++ Pintamos World cloud graphic con los tweets.
 
 ```{r r_sample41, echo=TRUE, eval=FALSE}
 
@@ -557,7 +557,7 @@ wordCloudTweets <- function(file){
 ### 2.2.6 Paint Tweet Comparison
 
 + Contamos el número de línias de cada fichero .rds con el objetivo de determinar el número de tweets de cada ataque.
-+ Creamos una matrix que contiene por una parte el número de tweets y por otra el nombre del ataque.
++ Creamos una matriz que contiene por una parte el número de tweets y por otra el nombre del ataque.
 + Como resultado obtenemos un grafico que permite comparar el número de tweets producidos entre varios ataques.
 
 
