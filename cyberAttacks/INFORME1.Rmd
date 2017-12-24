@@ -1,6 +1,6 @@
 ---
-title: "Informe Practica - GRUPO C"
-author: "Fabi Paez - Moris Davitashvili - Pedro Galindo"
+title: "Informe Práctica - GRUPO C"
+author: "Fabi Páez - Moris Davitashvili - Pedro Galindo"
 date: "Diciembre de 2017"
 output: 
   html_document:
@@ -596,41 +596,28 @@ Empresa afectada: Ataque de denegación de servicio (DDoS) a Play Station y Twit
 
 Se trata del mayor ataque de DDoS producido hasta la fecha con dispositivos de Internet de las cosas (IoT). Producido por la botnet Mirai, compuesta por cientos de miles de cámaras IP junto a otros dispositivos IoT, dejó fuera de juego a múltiples servicios de Internet, llegando a afectar a Play Station Network y Twitter, entre otros. Se sospecha que este ciberataque habría sido también una prueba de concepto para afectar al funcionamiento de los sistemas de voto electrónico de EE.UU., antes de las elecciones del 8 de noviembre. 
 
-
-### 3.1.1 DDoS Playstation grafico
-
-En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
-
-<!-- grafico Playstation -->
-```{r r_sample1, echo=FALSE}
-  library(cyberAttacks)
-  paintTweetsDays("playstationb.rds")
-```
-
-### 3.1.2 DDoS Playstation mapamundi
+### 3.1.1 DDoS Playstation mapamundi
 
 En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 <!-- mapamundi Playstation -->
-```{r r_sample2, echo=FALSE}
-```
+![No se carga la imagen](worldPlaystation.png)
 
-### 3.1.3 DDoS Playstation apple
+
+
+### 3.1.2 DDoS Playstation apple
 
 En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
 
 <!-- llamada a las funciones  -->
+![No se carga la imagen](piePlaysation.png)
 
-```{r r_sample3, echo=FALSE}
-```
-
-
-### 3.1.4 DDoS Playstation palabras repetidas
+### 3.1.3 DDoS Playstation palabras repetidas
 
 Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Playstation -->
-```{r r_sample4, echo=FALSE}
+```{r , echo=FALSE, comment=" ", echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
   wordCloudTweets("playstationb.rds")
 ```
 
@@ -649,21 +636,28 @@ El ransomware tiene como objetivo cifrar los archivos del equipo infectado para 
 ### 3.2.1 Wannacry grafico
 
 En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
-
 <!-- grafico Wannacry-->
+![No se carga la imagen](tempsTweetsWanna.png)
+
+
+
 ### 3.2.2 Wannacry mapamundi
 
 En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 <!-- mapamundi Wannacry-->
-### 3.2.3 Wannacry apple
+![No se carga la imagen](mapaWanna.png)
 
+### 3.2.3 Wannacry apple
 En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
 <!-- apple Wannacry -->
+![No se carga la imagen](pieWanna.png)
+
 ### 3.2.4 Wannacry palabras repetidas
 
 Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Wannacry-->
+![No se carga la imagen](wordCloudWanna.png)
 
 ## 3.3 Petya 
 
@@ -683,33 +677,28 @@ Este malware utiliza ingeniería social para convencer a usuarios (o a administr
 En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
 
 <!-- grafico Petya -->
-```{r r_sample9, echo=FALSE}
-  paintTweetsDays("petyab.rds")
+```{r , echo=FALSE, comment=" ", echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
+    source("R/paintTweetsDays.R")
+    library(cyberAttacks)
+    paintTweetsDays("petyab.rds")
 ```
 
 ### 3.3.2 Petya mapamundi
 
 En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
-<!-- mapamundi Petya  -->
-```{r r_sample10, echo=FALSE}
-```
 
 ### 3.3.3 Petya apple
 
 En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
 
-<!-- apple Petya -->
-
-```{r r_sample11, echo=FALSE}
-```
 
 ### 3.3.4 Petya palabras repetidas
 
 Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Petya -->
-```{r r_sample12, echo=FALSE}
+```{r , echo=FALSE, comment=" ", echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
   wordCloudTweets("petyab.rds")
 ```
 
@@ -722,40 +711,23 @@ Quien: Se especula con la idea de que el virus fue creado y extendido por hacker
 Empresa afectada: dispositivos Android
 
 Resumen: posiblemente el ataque más grande a dispositivos Android Cuando un usuario se descargaba e instalaba algunos de los juegos de Judy, la aplicación abría una pasarela que conectaba el dispositivo con una web en la que se pinchaba en enlaces de publicidad que generaban ingresos a los hackers a través de la infraestructura publicitaria de Google. 
-Todo esto de manera oculta y sin conocimiento del usuario.
+Todo esto de manera oculta y sin conocimiento del usuario.`
 
-
-### 3.5.1 Judy grafico
-
-En el gráfico siguiente, podemos observar el número de tweets por día del ataque:
-
-<!-- grafico Judy -->
-```{r r_sample17, echo=FALSE}
-  paintTweetsDays("judyb.rds")
-```
-
-### 3.5.2 Judy mapamundi
+### 3.5.1 Judy mapamundi
 
 En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
-<!-- mapamundi Judy -->
-```{r r_sample18, echo=FALSE}
-```
-
-### 3.5.3 Judy apple
+### 3.5.2 Judy apple
 
 En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
 
-<!-- apple Judy -->
-```{r r_sample19, echo=FALSE}
-```
 
-### 3.5.4 Judy palabras repetidas
+### 3.5.3 Judy palabras repetidas
 
 Por último, la siguiente figura representa una nube de palabras donde se pueden apreciar las palabras más repetidas en los tweets del ataque:
 
 <!-- palabras repetidas Judy -->
-```{r r_sample20, echo=FALSE}
+```{r , echo=FALSE, comment=" ", echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
   wordCloudTweets("judyb.rds")
 ```
 
@@ -773,7 +745,7 @@ Como se muestra a continuación, la siguiente gráfica compara el numero de twee
 
 <!-- grafico comparacion -->
 
-```{r r_sample21, echo=FALSE}
+```{r , echo=FALSE, comment=" ", echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
   paintTweetsComparation("wannacry.rds", "petya.rds", "judy.rds")
 ```
 

@@ -21,7 +21,6 @@ searchTweets <- function(name){
     ltw[[x]] <- twListToDF(searchResults)
   }
   df.tw <- plyr::ldply(ltw)
-  #nomestw<-df.tw %>% filter(isRetweet == FALSE)
   saveRDS(df.tw, file = name)
 }
 

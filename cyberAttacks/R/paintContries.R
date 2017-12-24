@@ -13,10 +13,6 @@ paintContries <- function(file){
   require("plyr")
   require("stringr")
 
-  #consumer_key <- 'PUZuo6k75lZYGQBRiwlJLc9Og'
-  #consumer_secret <- '4My1RZHZgbYvaA5XBIAcJ11dqpgQtDOEecHR3LoZFcouCr1nL7'
-  #access_token <- '938134932383260672-vkIaphVYLXb2tnnpKFJU3calS4pE4hu'
-  #access_secret <- 'ZNscFMCMQX9ercbLgN16ROrsFULA0GX04k0BMgS7VvnAQ'
   consumer_key <- 'xTtWssMDK0lbL3snyh07qc6Tq'
   consumer_secret <- 'uhFU4p4XAijNMaKXml9dqatYN09AhWKU2XgNFgDkYIPEMMjafe'
   access_token <- '942082776689528832-p8iBl60ho1aYTNmwOFxgOIKF1TrSeLo'
