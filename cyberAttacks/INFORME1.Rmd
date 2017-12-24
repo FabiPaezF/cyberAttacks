@@ -13,7 +13,7 @@ output:
 ---
 
 
-<!-- aqui declaro las funciones  -->
+<!-- aquí declaro las funciones  -->
 
 
 <!-- funcion paintContries -->
@@ -98,7 +98,7 @@ paintTweetsDays <- function(file){
 ```
 
 
-<!-- funcion paintWorldMap 
+<!-- funcion paintWorldMap -->
 
 ```{r r_sample34 , echo=FALSE}
 
@@ -147,7 +147,7 @@ paintWorldMap <- function(file){
 }
 
 ```
--->
+
 
 <!-- funcion searchTweets -->
 
@@ -297,9 +297,9 @@ El presente trabajo pretende asimismo ver si la concienciación de los usuarios 
 
 
 ### Obtención de datos
-Los datos utilizados para el análisis han sido extraidos de la API de Twitter. La API de Twitter dispone de multiples métodos para extraer información de los tweets de los usuarios. En nuestro caso, hemos usado la función search() para buscar los tweets relacionados con diferentes ataques cybernéticos  correspondientes a los años 2015, 2016 y 2017.
+Los datos utilizados para el análisis han sido extraídos de la API de Twitter. La API de Twitter dispone de múltiples métodos para extraer información de los tweets de los usuarios. En nuestro caso, hemos usado la función search() para buscar los tweets relacionados con diferentes ataques cibernéticos  correspondientes a los años 2015, 2016 y 2017.
 
-Esta busqueda ha sido limitada al no disponer de una cuenta premium del servicio. Además, a lo largo del proceso nos hemos dado cuenta de ciertas limitaciones que han condicionado los resultados. La API gratuita solo dispone de los tweets de los últimos días. Por otro lado, debido al poco tiempo para relizar la práctica, hemos tenido que limitar la cantidad de información al tardar mucho los procesos de obtención de gráficso implementados por la gran cantidad de datos.
+Esta búsqueda ha sido limitada al no disponer de una cuenta premium del servicio. Además, a lo largo del proceso nos hemos dado cuenta de ciertas limitaciones que han condicionado los resultados. La API gratuita solo dispone de los tweets de los últimos días. Por otro lado, debido al poco tiempo para realizar la práctica, hemos tenido que limitar la cantidad de información al tardar mucho los procesos de obtención de gráficos implementados por la gran cantidad de datos.
 
 ### Ciberataques referenciados
 
@@ -327,8 +327,8 @@ setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret) 
 ### 2.2.1 Search Tweets
 
 +	Buscamos los Tweets que contengan la palabra contenida en la variable "name".
-+ Realizamos un bucle mediante la sentencia for, con el objetivo de realizar varias busquedas y guardar esta información de manera ordenada.
-+ Como resultado de la ejecución de este fragmento de código obtenemos un documento con nombre "nombreAtaque.rds". La extensión .rds nos permite guardar y posteriormente recuperar el dataFrame tal y como se habia guardado.
++ Realizamos un bucle mediante la sentencia for, con el objetivo de realizar varias búsquedas y guardar esta información de manera ordenada.
++ Como resultado de la ejecución de este fragmento de código obtenemos un documento con nombre "nombreAtaque.rds". La extensión .rds nos permite guardar y posteriormente recuperar el dataFrame tal y como se había guardado.
 
 ```{r r_sample37, echo=TRUE, eval=FALSE}
 
@@ -353,14 +353,14 @@ searchTweets <- function(name){
 ### 2.2.2 Paint Countries
 
 + Recuperamos el dataFrame guardado en el fichero .rds.
-+ Buscamos informacion sobre los usuarios.
++ Buscamos información sobre los usuarios.
 + Convertimos esta nueva información a DataFrame.
-+ Guardamos la informacion relativa a la localitzacion de los usuarios.
++ Guardamos la información relativa a la localitzación de los usuarios.
 + Utilizando el metodo geocode de ggplot2 podemos conseguir localización aproximada de los usuarios a partir de la Latitud, Longitud.
-+ Empezamos con el proceso de limpieza de los paises. Primero eliminando los NA.
-+ Seguidamente nos quedamos con los paises.
++ Empezamos con el proceso de limpieza de los países. Primero eliminando los NA.
++ Seguidamente nos quedamos con los países.
 + Devuelve tanto nombre largo (ej. United Kingdom) como abreviatura/nombre corto (ej. UK) por lo tanto unificamos a abreviatura (UK).
-+ Creamos un gràfico circular que representa como se ha dividido el número de tweets en los paises.
++ Creamos un gráfico circular que representa como se ha dividido el número de tweets en los países.
 
 ```{r r_sample38, echo=TRUE, eval=FALSE}
 
@@ -403,10 +403,10 @@ paintContries <- function(file){
 ### 2.2.3 Paint Tweets Days
 
 + Recuperamos el dataFrame guardado en el fichero .rds.
-+ Modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos
-+ Recogemos la columna created
-+ Dibujamos el grafico
-+ Como resultado tenemos un grafico con el numero de tweets de cada dia
++ Modificamos el valor de la columna created para que eliminar la parte correspondiente a horas minutos y segundos.
++ Recogemos la columna created.
++ Dibujamos el grafico.
++ Como resultado tenemos un grafico con el numero de tweets de cada día.
 
 
 ```{r r_sample39, echo=TRUE, eval=FALSE}
@@ -435,14 +435,14 @@ paintTweetsDays <- function(file){
 ### 2.2.4 Paint World Map
 
 + Recuperamos el dataFrame guardado en el fichero .rds.
-+ Buscamos informacion sobre los usuarios
++ Buscamos información sobre los usuarios
 + Convertimos a DataFrame
-+ Guardamos la informacion relativa a la localitzacion de los usuarios
++ Guardamos la informacion relativa a la localitzación de los usuarios
 + API para conseguir la localización aproximada de los usuarios a partir de la Latitud, Longitud
 + Pintamos el mapa
 + Añadimos un punto por usuario
-+ Conservamos la relacion de altura / anchura (proporciones)
-+ Quitamos informacion no util del fondo
++ Conservamos la relación de altura / anchura (proporciones)
++ Quitamos información no útil del fondo
 + Como resultado dibujamos información de códigos geográficos de tweets sobre un mapa global
 
 ```{r r_sample40, echo=TRUE, eval=FALSE}
@@ -487,7 +487,7 @@ paintWorldMap <- function(file){
 
 + Recuperamos el dataFrame guardado en el fichero .rds.
 + Recogemos el tweet
-+ Limpiamos el tweets quitando comas, numeros, link html, espacios, caracteres raros (@, ^, \\, :, etc.)
++ Limpiamos el tweets quitando comas, números, link html, espacios, caracteres raros (@, ^, \\, :, etc.)
 + Dividimos la frase en palabras sueltas eliminando conectores comunes
 + Eliminamos conectores comunes
 + Pintamos World cloud graphic con los tweets
@@ -556,9 +556,9 @@ wordCloudTweets <- function(file){
 
 ### 2.2.6 Paint Tweet Comparison
 
-+ Contamos el numero de linias de cada fichero .rds con el objetivo de determinar el numero de tweets de cada ataque.
-+ Creamos una matrix que contiene por una parte el numero de tweets y por otra el nombre del ataque.
-+ Como resultado obtenemos un grafico que permite comparar el numero de tweets producidos entre varios ataques.
++ Contamos el número de línias de cada fichero .rds con el objetivo de determinar el número de tweets de cada ataque.
++ Creamos una matrix que contiene por una parte el número de tweets y por otra el nombre del ataque.
++ Como resultado obtenemos un grafico que permite comparar el número de tweets producidos entre varios ataques.
 
 
 ```{r r_sample42, echo=TRUE, eval=FALSE}
@@ -607,7 +607,7 @@ En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 ### 3.1.2 DDoS Playstation apple
 
-En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+En este gráfico, podemos observar la proporción de tweets por los diferentes países de origen:
 
 <!-- llamada a las funciones  -->
 ![No se carga la imagen](piePlaysation.png)
@@ -648,7 +648,7 @@ En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 ![No se carga la imagen](mapaWanna.png)
 
 ### 3.2.3 Wannacry apple
-En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+En este gráfico, podemos observar la proporción de tweets por los diferentes países de origen:
 <!-- apple Wannacry -->
 ![No se carga la imagen](pieWanna.png)
 
@@ -690,7 +690,7 @@ En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 ### 3.3.3 Petya apple
 
-En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+En este gráfico, podemos observar la proporción de tweets por los diferentes países de origen:
 
 
 ### 3.3.4 Petya palabras repetidas
@@ -719,7 +719,7 @@ En este segundo gráfico, vemos los diferentes tweets pintados en el mapa mundi:
 
 ### 3.5.2 Judy apple
 
-En este gráfico, podemos observar la proporción de tweets por los diferentes paises de origen:
+En este gráfico, podemos observar la proporción de tweets por los diferentes países de origen:
 
 
 ### 3.5.3 Judy palabras repetidas
@@ -741,7 +741,7 @@ Entendemos que el hecho de que los usuarios traten de buscar, cada vez en mayor 
 + b.	Un mayor conocimiento del impacto que pueden tener los ciberataques.
 + c.	Hay una relación bastante evidente entre los países más desarrollados y el nivel de interés/consultas/búsquedas sobre los ciberataques.
 
-Como se muestra a continuación, la siguiente gráfica compara el numero de tweets de los diferentes ataques análizados:
+Como se muestra a continuación, la siguiente gráfica compara el numero de tweets de los diferentes ataques analizados:
 
 <!-- grafico comparacion -->
 
